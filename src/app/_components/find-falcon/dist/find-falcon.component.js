@@ -178,6 +178,38 @@ var FindFalconComponent = /** @class */ (function () {
             });
         }
     };
+    FindFalconComponent.prototype.resetData = function () {
+        var _this = this;
+        this.availablePlanets = [];
+        this.availableVehicles = [];
+        this.selectedItems = [];
+        this.arrivalTimeByPlanet = [];
+        this.availableVehicles = this.vehicles;
+        this.planets.forEach(function (element) {
+            _this.availablePlanets.push({
+                name: element.name,
+                distance: element.distance,
+                available: true
+            });
+        });
+        for (var index = 0; index < this.numberOfDestination; index++) {
+            this.selectedItems[index] = {
+                planets: {
+                    name: 'N/A',
+                    distance: 'N/A',
+                    imageUrl: 'assets/img/planet-unknown.png',
+                    isSet: false
+                },
+                vehicles: {
+                    name: 'N/A',
+                    speed: 'N/A',
+                    maxDistance: 'N/A',
+                    imageUrl: 'assets/img/vehicle-unknown.png',
+                    isSet: false
+                }
+            };
+        }
+    };
     FindFalconComponent = __decorate([
         core_1.Component({
             selector: 'app-find-falcon',
