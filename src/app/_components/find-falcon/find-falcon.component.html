@@ -1,3 +1,5 @@
+<button type="button" class="btn" style="position: fixed; top: 29px; margin-left: 86vw; z-index: 2;" [class.btn-success]="checkAllDestinationAndVehiclesAreSet()" [class.btn-danger]="!checkAllDestinationAndVehiclesAreSet()" [disabled]="!checkAllDestinationAndVehiclesAreSet()"
+    (click)="findFalcone()">Find Falcone</button>
 <button type="button" class="btn btn-dark" style="position: fixed; top: 29px; margin-left: 80vw; z-index: 2;">Reset</button>
 <div class="row">
     <div class="col-md" *ngFor="let item of selectedItems; let i = index">
@@ -34,4 +36,3 @@
         </ng-container>
     </div>
 </div>
-<button type="button" class="btn" [class.btn-success]="checkAllDestinationAndVehiclesAreSet()" [class.btn-danger]="!checkAllDestinationAndVehiclesAreSet()" [disabled]="!checkAllDestinationAndVehiclesAreSet()" (click)="findFalcone()">Find Falcone</button>
