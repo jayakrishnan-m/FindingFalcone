@@ -17,6 +17,7 @@ var FindFalconComponent = /** @class */ (function () {
         this.vehicles = [];
         this.availablePlanets = [];
         this.availableVehicles = [];
+        this.arrivalTimeByPlanet = [];
     }
     FindFalconComponent.prototype.ngOnInit = function () {
         var _this = this;
@@ -91,6 +92,7 @@ var FindFalconComponent = /** @class */ (function () {
         this.selectedItems[destinationIndex]['vehicles'].maxDistance =
             vehicleObj.max_distance;
         this.selectedItems[destinationIndex]['vehicles'].isSet = true;
+        this.arrivalTimeByPlanet[destinationIndex] = this.selectedItems[destinationIndex]['planets'].distance / this.selectedItems[destinationIndex]['vehicles'].speed;
     };
     FindFalconComponent.prototype.resetVehiclesOnDestinationChange = function (destinationIndex) {
         var _this = this;
@@ -136,6 +138,13 @@ var FindFalconComponent = /** @class */ (function () {
             result['vehicle_names'].push(item['vehicles']['name']);
         });
         return result;
+    };
+    FindFalconComponent.prototype.getTotalTime = function () {
+        var totalTime = 0;
+        this.arrivalTimeByPlanet.forEach(function (element) {
+            totalTime += element;
+        });
+        return totalTime;
     };
     FindFalconComponent.prototype.findFalcone = function () {
         var _this = this;

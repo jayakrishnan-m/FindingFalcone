@@ -15,7 +15,7 @@ export class FindFalconComponent implements OnInit {
   vehicles: any = [];
   availablePlanets: any = [];
   availableVehicles: any = [];
-
+  arrivalTimeByPlanet: any=[];
   constructor(private dataService: DataService) {}
 
   ngOnInit(): void {
@@ -94,6 +94,7 @@ export class FindFalconComponent implements OnInit {
     this.selectedItems[destinationIndex]['vehicles'].maxDistance =
       vehicleObj.max_distance;
     this.selectedItems[destinationIndex]['vehicles'].isSet = true;
+    this.arrivalTimeByPlanet[destinationIndex] =this.selectedItems[destinationIndex]['planets'].distance / this.selectedItems[destinationIndex]['vehicles'].speed
   }
 
   resetVehiclesOnDestinationChange(destinationIndex) {
@@ -148,6 +149,14 @@ export class FindFalconComponent implements OnInit {
     });
     return result;
   }
+
+getTotalTime() {
+  let totalTime = 0;
+  this.arrivalTimeByPlanet.forEach(element => {
+    totalTime += element;
+  }); 
+  return totalTime;
+}
 
   findFalcone() {
     if (this.checkAllDestinationAndVehiclesAreSet()) {

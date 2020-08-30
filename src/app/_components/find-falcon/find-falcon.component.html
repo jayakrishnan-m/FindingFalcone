@@ -1,15 +1,16 @@
 <button type="button" class="btn" style="position: fixed; top: 29px; margin-left: 86vw; z-index: 2;" [class.btn-success]="checkAllDestinationAndVehiclesAreSet()" [class.btn-danger]="!checkAllDestinationAndVehiclesAreSet()" [disabled]="!checkAllDestinationAndVehiclesAreSet()"
     (click)="findFalcone()">Find Falcone</button>
 <button type="button" class="btn btn-dark" style="position: fixed; top: 29px; margin-left: 80vw; z-index: 2;">Reset</button>
+<label style="position: fixed; top: 68px; margin-left: 86vw; z-index: 2;color: black ;">Time : {{getTotalTime()}}</label>
 <div class="row">
     <div class="col-md" *ngFor="let item of selectedItems; let i = index">
         <ng-container class="col-md-12 row" style="display: flexbox;">
-            <img width="100%" class="col-md-6" style="float: left;" [src]="item['planets']['imageUrl']" />
+            <img width="100px" class="col-md-6" style="float: left;" [src]="item['planets']['imageUrl']" />
             <div class="col-md-6" style="float: left; margin-top: 12px;">
-                <label>Name : {{item['planets']['name']}}</label>
-                <label>Distance : {{item['planets']['distance']}}</label>
+                <label class="no-wrap">Name : {{item['planets']['name']}}</label>
+                <label class="no-wrap">Distance : {{item['planets']['distance']}}</label>
                 <div class="btn-group" dropdown>
-                    <button id="button-animated" dropdownToggle type="button" class="btn btn-primary dropdown-toggle mx-auto mb-3" aria-controls="dropdown-animated">
+                    <button id="button-animated" dropdownToggle type="button" class="btn dropdown-toggle mx-auto mb-3" [class.btn-success]="item['planets']['isSet']" [class.btn-danger]="!item['planets']['isSet']" aria-controls="dropdown-animated">
                         Destination {{ i + 1 }}<span class="caret"></span>
                     </button>
                     <ul id="dropdown-animated" *dropdownMenu class="dropdown-menu drop-down-menu" role="menu" aria-labelledby="button-animated">
@@ -17,21 +18,25 @@
                     </ul>
                 </div>
             </div>
+            <div *ngIf="item['planets']['isSet']" style="padding-top: 150px;">
+                <img width="150px" class="col-md-6" style="float: left;" [src]="item['vehicles']['imageUrl']" />
+                <div class="col-md-6" style="float: left; margin-top: 12px;">
+                    <label class="no-wrap">Name : {{item['vehicles']['name']}}</label>
+                    <label class="no-wrap">Speed : {{item['vehicles']['speed']}}</label>
+                    <label class="no-wrap">Max distance : {{item['vehicles']['maxDistance']}}</label>
+                    <div class="btn-group" dropdown [dropup]=true>
+                        <button id="button-animated" dropdownToggle type="button" class="btn dropdown-toggle mx-auto mb-3" [class.btn-success]="item['vehicles']['isSet']" [class.btn-danger]="!item['vehicles']['isSet']" aria-controls="dropdown-animated">
+                        Vehicle for {{item['planets']['name']}}<span class="caret"></span>
+                    </button>
+                        <ul id="dropdown-animated" *dropdownMenu class="dropdown-menu drop-down-menu" role="menu" aria-labelledby="button-animated">
+                            <li role="menuitem" *ngFor="let vehicle of getAvailableVehicles(item['planets']['distance'])" (click)="selectVehicle(i,vehicle)">{{vehicle['name']}} ({{vehicle['total_no']}})</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
         </ng-container>
         <ng-container *ngIf="item['planets']['isSet']">
-            <img width="100px" class="mx-auto d-block" [src]="item['vehicles']['imageUrl']" />
-            <label>Name : {{item['vehicles']['name']}}</label>
-            <label>Speed : {{item['vehicles']['speed']}}</label>
-            <label>Max distance : {{item['vehicles']['maxDistance']}}</label>
-            <div class="btn-group col-md-12" dropdown>
-                <button id="button-animated" dropdownToggle type="button" class="btn btn-primary dropdown-toggle mx-auto mb-3" aria-controls="dropdown-animated">
-                    Vehicle for {{item['planets']['name']}}<span class="caret"></span>
-                </button>
-                <ul id="dropdown-animated" *dropdownMenu class="dropdown-menu drop-down-menu" role="menu" aria-labelledby="button-animated">
-                    <li role="menuitem">No vehicles available {{item['planets']['name']}}</li>
-                    <li role="menuitem" *ngFor="let vehicle of getAvailableVehicles(item['planets']['distance'])" (click)="selectVehicle(i,vehicle)">{{vehicle['name']}} ({{vehicle['total_no']}})</li>
-                </ul>
-            </div>
+
 
         </ng-container>
     </div>
