@@ -1,0 +1,11 @@
+div {
+  background: black;
+  width: 100vw;
+  height: 100vh;
+}
+
+img {
+  position: fixed;
+  top: 30vh;
+  left: 40vw;
+}

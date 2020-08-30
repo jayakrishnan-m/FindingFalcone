@@ -20,8 +20,10 @@ export class FindFalconComponent implements OnInit {
   constructor(private dataService: DataService, private router: Router) {}
 
   ngOnInit(): void {
+    this.dataService.isLoading.next(true);
     this.dataService.getPlanets().subscribe((data) => {
       this.planets = data;
+      this.dataService.isLoading.next(false);
       this.planets.forEach((element) => {
         this.availablePlanets.push({
           name: element.name,
@@ -30,7 +32,9 @@ export class FindFalconComponent implements OnInit {
         });
       });
     });
+    this.dataService.isLoading.next(true);
     this.vehicles = this.dataService.getVehicles().subscribe((data) => {
+    this.dataService.isLoading.next(false);
       this.vehicles = data;
       this.availableVehicles = this.vehicles;
     });
@@ -163,11 +167,13 @@ export class FindFalconComponent implements OnInit {
   }
 
   findFalcone() {
+    this.dataService.isLoading.next(true);
     if (this.checkAllDestinationAndVehiclesAreSet()) {
       this.dataService.getToken().subscribe((data) => {
         let requestData = this.getSelectedDestinationAndVehicles();
         requestData['token'] = data['token'];
         this.dataService.findFalcone(requestData).subscribe((data) => {
+          this.dataService.isLoading.next(false);
           if (data['status'] === 'success') {
             data['time'] = this.getTotalTime();
             data['search_data'] = this.selectedItems.filter((item) => {

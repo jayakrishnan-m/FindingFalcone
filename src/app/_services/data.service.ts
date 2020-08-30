@@ -5,6 +5,7 @@ import { BehaviorSubject } from 'rxjs';
   providedIn: 'root',
 })
 export class DataService {
+  public isLoading = new BehaviorSubject(false);
   private resultSource = new BehaviorSubject(false);
   latestResult = this.resultSource.asObservable();
 

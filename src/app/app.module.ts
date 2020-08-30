@@ -14,6 +14,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ApiService } from './_services/api.service';
 import { DataService } from './_services/data.service';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
+import { LoaderComponent } from './_components/loader/loader.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { TooltipModule } from 'ngx-bootstrap/tooltip';
     ResultComponent,
     FindFalconComponent,
     HeaderComponent,
-    FooterComponent
+    FooterComponent,
+    LoaderComponent
   ],
   imports: [
     ButtonsModule.forRoot(),

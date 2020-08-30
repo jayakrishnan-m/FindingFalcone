@@ -12,6 +12,7 @@ var rxjs_1 = require("rxjs");
 var DataService = /** @class */ (function () {
     function DataService(apiService) {
         this.apiService = apiService;
+        this.isLoading = new rxjs_1.BehaviorSubject(false);
         this.resultSource = new rxjs_1.BehaviorSubject(false);
         this.latestResult = this.resultSource.asObservable();
     }

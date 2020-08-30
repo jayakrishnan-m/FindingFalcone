@@ -22,8 +22,10 @@ var FindFalconComponent = /** @class */ (function () {
     }
     FindFalconComponent.prototype.ngOnInit = function () {
         var _this = this;
+        this.dataService.isLoading.next(true);
         this.dataService.getPlanets().subscribe(function (data) {
             _this.planets = data;
+            _this.dataService.isLoading.next(false);
             _this.planets.forEach(function (element) {
                 _this.availablePlanets.push({
                     name: element.name,
@@ -32,7 +34,9 @@ var FindFalconComponent = /** @class */ (function () {
                 });
             });
         });
+        this.dataService.isLoading.next(true);
         this.vehicles = this.dataService.getVehicles().subscribe(function (data) {
+            _this.dataService.isLoading.next(false);
             _this.vehicles = data;
             _this.availableVehicles = _this.vehicles;
         });
@@ -152,11 +156,13 @@ var FindFalconComponent = /** @class */ (function () {
     };
     FindFalconComponent.prototype.findFalcone = function () {
         var _this = this;
+        this.dataService.isLoading.next(true);
         if (this.checkAllDestinationAndVehiclesAreSet()) {
             this.dataService.getToken().subscribe(function (data) {
                 var requestData = _this.getSelectedDestinationAndVehicles();
                 requestData['token'] = data['token'];
                 _this.dataService.findFalcone(requestData).subscribe(function (data) {
+                    _this.dataService.isLoading.next(false);
                     if (data['status'] === 'success') {
                         data['time'] = _this.getTotalTime();
                         data['search_data'] = _this.selectedItems.filter(function (item) {
