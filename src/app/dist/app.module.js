@@ -22,6 +22,7 @@ var dropdown_1 = require("ngx-bootstrap/dropdown");
 var animations_1 = require("@angular/platform-browser/animations");
 var api_service_1 = require("./_services/api.service");
 var data_service_1 = require("./_services/data.service");
+var tooltip_1 = require("ngx-bootstrap/tooltip");
 var AppModule = /** @class */ (function () {
     function AppModule() {
     }
@@ -41,7 +42,8 @@ var AppModule = /** @class */ (function () {
                 platform_browser_1.BrowserModule,
                 app_routing_module_1.AppRoutingModule,
                 animations_1.BrowserAnimationsModule,
-                http_1.HttpClientModule
+                http_1.HttpClientModule,
+                tooltip_1.TooltipModule.forRoot()
             ],
             providers: [api_service_1.ApiService, data_service_1.DataService],
             bootstrap: [app_component_1.AppComponent]

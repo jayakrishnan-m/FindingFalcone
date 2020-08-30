@@ -1,1 +1,16 @@
-<p>result works!</p>
+<div>
+    <header>
+        <ng-container *ngIf="falconeFound">
+            <h1 class="success">Falcone found</h1>
+            <div>
+                <label>Falcone location : {{planetName}}</label>
+                <label>Distance : {{distance}}</label>
+                <label>Vehicle : {{vehicleName}}</label>
+                <label>Total time taken for the search : {{time}}</label>
+            </div>
+        </ng-container>
+        <ng-container *ngIf="!falconeFound">
+            <h1 class="failed">Failed to find falcone</h1>
+        </ng-container>
+    </header>
+</div>

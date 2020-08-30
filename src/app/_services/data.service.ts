@@ -1,9 +1,13 @@
 import { Injectable } from '@angular/core';
 import { ApiService } from './api.service';
+import { BehaviorSubject } from 'rxjs';
 @Injectable({
   providedIn: 'root',
 })
 export class DataService {
+  private resultSource = new BehaviorSubject(false);
+  latestResult = this.resultSource.asObservable();
+
   constructor(private apiService: ApiService) {}
 
   getPlanets() {
@@ -20,5 +24,9 @@ export class DataService {
 
   findFalcone(data:any) {
     return this.apiService.postRequest('/find', data);
+  }
+
+  updateLatestResult(data) {
+    this.resultSource.next(data)
   }
 }

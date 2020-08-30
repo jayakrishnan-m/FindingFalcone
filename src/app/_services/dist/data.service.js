@@ -8,9 +8,12 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 exports.__esModule = true;
 exports.DataService = void 0;
 var core_1 = require("@angular/core");
+var rxjs_1 = require("rxjs");
 var DataService = /** @class */ (function () {
     function DataService(apiService) {
         this.apiService = apiService;
+        this.resultSource = new rxjs_1.BehaviorSubject(false);
+        this.latestResult = this.resultSource.asObservable();
     }
     DataService.prototype.getPlanets = function () {
         return this.apiService.getRequest('/planets');
@@ -22,8 +25,10 @@ var DataService = /** @class */ (function () {
         return this.apiService.postRequest('/token', null);
     };
     DataService.prototype.findFalcone = function (data) {
-        if (data === void 0) { data = []; }
-        return this.apiService.postRequest('/find', null);
+        return this.apiService.postRequest('/find', data);
+    };
+    DataService.prototype.updateLatestResult = function (data) {
+        this.resultSource.next(data);
     };
     DataService = __decorate([
         core_1.Injectable({

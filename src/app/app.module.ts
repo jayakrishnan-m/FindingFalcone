@@ -13,6 +13,7 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ApiService } from './_services/api.service';
 import { DataService } from './_services/data.service';
+import { TooltipModule } from 'ngx-bootstrap/tooltip';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { DataService } from './_services/data.service';
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    HttpClientModule
+    HttpClientModule,
+    TooltipModule.forRoot()
   ],
   providers: [ApiService,DataService],
   bootstrap: [AppComponent]

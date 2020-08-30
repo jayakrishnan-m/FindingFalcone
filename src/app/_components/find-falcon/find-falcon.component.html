@@ -18,14 +18,14 @@
                     </ul>
                 </div>
             </div>
-            <div *ngIf="item['planets']['isSet']" style="padding-top: 150px;">
+            <div *ngIf="item['planets']['isSet']" style="padding-top: 150px;margin-bottom: 200px;">
                 <img width="150px" class="col-md-6" style="float: left;" [src]="item['vehicles']['imageUrl']" />
                 <div class="col-md-6" style="float: left; margin-top: 12px;">
                     <label class="no-wrap">Name : {{item['vehicles']['name']}}</label>
                     <label class="no-wrap">Speed : {{item['vehicles']['speed']}}</label>
                     <label class="no-wrap">Max distance : {{item['vehicles']['maxDistance']}}</label>
-                    <div class="btn-group" dropdown [dropup]=true>
-                        <button id="button-animated" dropdownToggle type="button" class="btn dropdown-toggle mx-auto mb-3" [class.btn-success]="item['vehicles']['isSet']" [class.btn-danger]="!item['vehicles']['isSet']" aria-controls="dropdown-animated">
+                    <div class="btn-group" dropdown [dropup]=true [isDisabled]="!getAvailableVehicles(item['planets']['distance']).length">
+                        <button id="button-animated" dropdownToggle type="button" class="btn dropdown-toggle mx-auto mb-3" [class.btn-success]="item['vehicles']['isSet']" [class.btn-danger]="!item['vehicles']['isSet']" aria-controls="dropdown-animated" [tooltip]="!getAvailableVehicles(item['planets']['distance']).length? 'No vehicles are available for '+ item['planets']['name']:''">
                         Vehicle for {{item['planets']['name']}}<span class="caret"></span>
                     </button>
                         <ul id="dropdown-animated" *dropdownMenu class="dropdown-menu drop-down-menu" role="menu" aria-labelledby="button-animated">
@@ -35,9 +35,6 @@
                 </div>
             </div>
         </ng-container>
-        <ng-container *ngIf="item['planets']['isSet']">
 
-
-        </ng-container>
     </div>
 </div>

@@ -9,8 +9,9 @@ exports.__esModule = true;
 exports.FindFalconComponent = void 0;
 var core_1 = require("@angular/core");
 var FindFalconComponent = /** @class */ (function () {
-    function FindFalconComponent(dataService) {
+    function FindFalconComponent(dataService, router) {
         this.dataService = dataService;
+        this.router = router;
         this.numberOfDestination = 4;
         this.selectedItems = [];
         this.planets = [];
@@ -92,7 +93,9 @@ var FindFalconComponent = /** @class */ (function () {
         this.selectedItems[destinationIndex]['vehicles'].maxDistance =
             vehicleObj.max_distance;
         this.selectedItems[destinationIndex]['vehicles'].isSet = true;
-        this.arrivalTimeByPlanet[destinationIndex] = this.selectedItems[destinationIndex]['planets'].distance / this.selectedItems[destinationIndex]['vehicles'].speed;
+        this.arrivalTimeByPlanet[destinationIndex] =
+            this.selectedItems[destinationIndex]['planets'].distance /
+                this.selectedItems[destinationIndex]['vehicles'].speed;
     };
     FindFalconComponent.prototype.resetVehiclesOnDestinationChange = function (destinationIndex) {
         var _this = this;
@@ -125,7 +128,8 @@ var FindFalconComponent = /** @class */ (function () {
         return result;
     };
     FindFalconComponent.prototype.getAvailableVehicles = function (distance) {
-        var result = this.availableVehicles.filter(function (item) { return item.max_distance >= distance && item.total_no > 0; });
+        var result = [];
+        result = this.availableVehicles.filter(function (item) { return item.max_distance >= distance && item.total_no > 0; });
         return result;
     };
     FindFalconComponent.prototype.getSelectedDestinationAndVehicles = function () {
@@ -153,7 +157,17 @@ var FindFalconComponent = /** @class */ (function () {
                 var requestData = _this.getSelectedDestinationAndVehicles();
                 requestData['token'] = data['token'];
                 _this.dataService.findFalcone(requestData).subscribe(function (data) {
-                    console.log(data);
+                    if (data['status'] === 'success') {
+                        data['time'] = _this.getTotalTime();
+                        data['search_data'] = _this.selectedItems.filter(function (item) {
+                            if (data['planet_name'] === item['planets']['name']) {
+                                return item;
+                            }
+                        });
+                        data['search_data'] = data['search_data'][0];
+                    }
+                    _this.dataService.updateLatestResult(data);
+                    _this.router.navigate(['/result']);
                 });
             });
         }

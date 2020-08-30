@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { DataService } from 'src/app/_services/data.service';
 import { element } from 'protractor';
 import { stat } from 'fs';
+import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 
 @Component({
   selector: 'app-find-falcon',
@@ -15,8 +16,8 @@ export class FindFalconComponent implements OnInit {
   vehicles: any = [];
   availablePlanets: any = [];
   availableVehicles: any = [];
-  arrivalTimeByPlanet: any=[];
-  constructor(private dataService: DataService) {}
+  arrivalTimeByPlanet: any = [];
+  constructor(private dataService: DataService, private router: Router) {}
 
   ngOnInit(): void {
     this.dataService.getPlanets().subscribe((data) => {
@@ -94,7 +95,9 @@ export class FindFalconComponent implements OnInit {
     this.selectedItems[destinationIndex]['vehicles'].maxDistance =
       vehicleObj.max_distance;
     this.selectedItems[destinationIndex]['vehicles'].isSet = true;
-    this.arrivalTimeByPlanet[destinationIndex] =this.selectedItems[destinationIndex]['planets'].distance / this.selectedItems[destinationIndex]['vehicles'].speed
+    this.arrivalTimeByPlanet[destinationIndex] =
+      this.selectedItems[destinationIndex]['planets'].distance /
+      this.selectedItems[destinationIndex]['vehicles'].speed;
   }
 
   resetVehiclesOnDestinationChange(destinationIndex) {
@@ -132,7 +135,8 @@ export class FindFalconComponent implements OnInit {
   }
 
   getAvailableVehicles(distance) {
-    let result = this.availableVehicles.filter(
+    let result = [];
+    result = this.availableVehicles.filter(
       (item) => item.max_distance >= distance && item.total_no > 0
     );
     return result;
@@ -150,13 +154,13 @@ export class FindFalconComponent implements OnInit {
     return result;
   }
 
-getTotalTime() {
-  let totalTime = 0;
-  this.arrivalTimeByPlanet.forEach(element => {
-    totalTime += element;
-  }); 
-  return totalTime;
-}
+  getTotalTime() {
+    let totalTime = 0;
+    this.arrivalTimeByPlanet.forEach((element) => {
+      totalTime += element;
+    });
+    return totalTime;
+  }
 
   findFalcone() {
     if (this.checkAllDestinationAndVehiclesAreSet()) {
@@ -164,7 +168,17 @@ getTotalTime() {
         let requestData = this.getSelectedDestinationAndVehicles();
         requestData['token'] = data['token'];
         this.dataService.findFalcone(requestData).subscribe((data) => {
-          console.log(data);
+          if (data['status'] === 'success') {
+            data['time'] = this.getTotalTime();
+            data['search_data'] = this.selectedItems.filter((item) => {
+              if(data['planet_name'] === item['planets']['name']) {
+                return item;        
+              }
+            });
+            data['search_data'] = data['search_data'][0];
+          }
+          this.dataService.updateLatestResult(data);
+          this.router.navigate(['/result']);
         });
       });
     }
