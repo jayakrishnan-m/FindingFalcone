@@ -1,27 +1,33 @@
-<div class="row" style="padding-top:1px">
+<button type="button" class="btn btn-dark" style="position: fixed; top: 29px; margin-left: 80vw; z-index: 2;">Reset</button>
+<div class="row">
     <div class="col-md" *ngFor="let item of selectedItems; let i = index">
-        <img width="100px" class="mx-auto d-block" [src]="item['planets']['imageUrl']" />
-        <label style="width: 50%; text-align: center">Name : {{item['planets']['name']}}</label>
-        <label style="width: 50%; text-align: center">Distance : {{item['planets']['distance']}}</label>
-        <div class="btn-group col-md-12" dropdown>
-            <button id="button-animated" dropdownToggle type="button" class="btn btn-primary dropdown-toggle mx-auto mb-3" aria-controls="dropdown-animated">
-        Destination {{ i + 1 }}<span class="caret"></span>
-      </button>
-            <ul id="dropdown-animated" *dropdownMenu class="dropdown-menu drop-down-menu" role="menu" aria-labelledby="button-animated">
-                <li role="menuitem" *ngFor="let planet of getAvailablePlanets()" (click)="selectDestination(i,planet)">{{planet['name']}}</li>
-            </ul>
-        </div>
+        <ng-container class="col-md-12 row" style="display: flexbox;">
+            <img width="100%" class="col-md-6" style="float: left;" [src]="item['planets']['imageUrl']" />
+            <div class="col-md-6" style="float: left; margin-top: 12px;">
+                <label>Name : {{item['planets']['name']}}</label>
+                <label>Distance : {{item['planets']['distance']}}</label>
+                <div class="btn-group" dropdown>
+                    <button id="button-animated" dropdownToggle type="button" class="btn btn-primary dropdown-toggle mx-auto mb-3" aria-controls="dropdown-animated">
+                        Destination {{ i + 1 }}<span class="caret"></span>
+                    </button>
+                    <ul id="dropdown-animated" *dropdownMenu class="dropdown-menu drop-down-menu" role="menu" aria-labelledby="button-animated">
+                        <li role="menuitem" *ngFor="let planet of getAvailablePlanets()" (click)="selectDestination(i,planet)">{{planet['name']}}</li>
+                    </ul>
+                </div>
+            </div>
+        </ng-container>
         <ng-container *ngIf="item['planets']['isSet']">
             <img width="100px" class="mx-auto d-block" [src]="item['vehicles']['imageUrl']" />
-            <label style="width: 50%; text-align: center">Name : {{item['vehicles']['name']}}</label>
-            <label style="width: 50%; text-align: center">Speed : {{item['vehicles']['speed']}}</label>
-            <label style="width: 50%; text-align: center">Max distance : {{item['vehicles']['maxDistance']}}</label>
+            <label>Name : {{item['vehicles']['name']}}</label>
+            <label>Speed : {{item['vehicles']['speed']}}</label>
+            <label>Max distance : {{item['vehicles']['maxDistance']}}</label>
             <div class="btn-group col-md-12" dropdown>
                 <button id="button-animated" dropdownToggle type="button" class="btn btn-primary dropdown-toggle mx-auto mb-3" aria-controls="dropdown-animated">
                     Vehicle for {{item['planets']['name']}}<span class="caret"></span>
                 </button>
                 <ul id="dropdown-animated" *dropdownMenu class="dropdown-menu drop-down-menu" role="menu" aria-labelledby="button-animated">
-                    <li role="menuitem" *ngFor="let vehicle of getAvailableVehicles(item['planets']['distance'])" (click)="selectVehicle(i,vehicle)">{{vehicle['name']}}</li>
+                    <li role="menuitem">No vehicles available {{item['planets']['name']}}</li>
+                    <li role="menuitem" *ngFor="let vehicle of getAvailableVehicles(item['planets']['distance'])" (click)="selectVehicle(i,vehicle)">{{vehicle['name']}} ({{vehicle['total_no']}})</li>
                 </ul>
             </div>
 

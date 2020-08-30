@@ -70,6 +70,7 @@ var FindFalconComponent = /** @class */ (function () {
         this.selectedItems[destinationIndex]['planets'].imageUrl =
             'assets/img/planets/' + planetObj.name + '.png';
         this.selectedItems[destinationIndex]['planets'].isSet = true;
+        this.resetVehiclesOnDestinationChange(destinationIndex);
     };
     FindFalconComponent.prototype.selectVehicle = function (destinationIndex, vehicleObj) {
         var _this = this;
@@ -91,14 +92,31 @@ var FindFalconComponent = /** @class */ (function () {
             vehicleObj.max_distance;
         this.selectedItems[destinationIndex]['vehicles'].isSet = true;
     };
-    FindFalconComponent.prototype.resetVehiclesOnDestinationChange = function (index) {
-        this.selectedItems[index]['vehicles'] = {
+    FindFalconComponent.prototype.resetVehiclesOnDestinationChange = function (destinationIndex) {
+        var _this = this;
+        this.availableVehicles.forEach(function (element) {
+            if (_this.selectedItems[destinationIndex]['vehicles'].isSet) {
+                if (element.name == _this.selectedItems[destinationIndex]['vehicles'].name) {
+                    element.total_no = ++element.total_no;
+                }
+            }
+        });
+        this.selectedItems[destinationIndex]['vehicles'] = {
             name: 'N/A',
             speed: 'N/A',
             maxDistance: 'N/A',
             imageUrl: 'assets/img/vehicle-unknown.png',
             isSet: false
         };
+    };
+    FindFalconComponent.prototype.checkAllDestinationAndVehiclesAreSet = function () {
+        var isReadyToFindFalcone = true;
+        this.selectedItems.forEach(function (item) {
+            if (!item['vehicles'].isSet || !item['planets'].isSet) {
+                isReadyToFindFalcone = false;
+            }
+        });
+        return isReadyToFindFalcone;
     };
     FindFalconComponent.prototype.getAvailablePlanets = function () {
         var result = this.availablePlanets.filter(function (item) { return item.available; });
@@ -107,6 +125,29 @@ var FindFalconComponent = /** @class */ (function () {
     FindFalconComponent.prototype.getAvailableVehicles = function (distance) {
         var result = this.availableVehicles.filter(function (item) { return item.max_distance >= distance && item.total_no > 0; });
         return result;
+    };
+    FindFalconComponent.prototype.getSelectedDestinationAndVehicles = function () {
+        var result = {
+            planet_names: [],
+            vehicle_names: []
+        };
+        this.selectedItems.forEach(function (item) {
+            result['planet_names'].push(item['planets']['name']);
+            result['vehicle_names'].push(item['vehicles']['name']);
+        });
+        return result;
+    };
+    FindFalconComponent.prototype.findFalcone = function () {
+        var _this = this;
+        if (this.checkAllDestinationAndVehiclesAreSet()) {
+            this.dataService.getToken().subscribe(function (data) {
+                var requestData = _this.getSelectedDestinationAndVehicles();
+                requestData['token'] = data['token'];
+                _this.dataService.findFalcone(requestData).subscribe(function (data) {
+                    console.log(data);
+                });
+            });
+        }
     };
     FindFalconComponent = __decorate([
         core_1.Component({
