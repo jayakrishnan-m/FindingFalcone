@@ -1,6 +1,10 @@
-# FindingFalcon
+# Finding Falcone
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 9.1.1.
+
+## Initial setup
+
+Clone this project and run `npm install` to install all project dependencies
 
 ## Development server
 
