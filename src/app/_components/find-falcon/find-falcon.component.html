@@ -1,12 +1,11 @@
-<button type="button" class="btn" style="position: fixed; top: 29px; margin-left: 86vw; z-index: 2;" [class.btn-success]="checkAllDestinationAndVehiclesAreSet()" [class.btn-danger]="!checkAllDestinationAndVehiclesAreSet()" [disabled]="!checkAllDestinationAndVehiclesAreSet()"
-    (click)="findFalcone()" [tooltip]="!checkAllDestinationAndVehiclesAreSet()? 'Select all the slots for vehicles and planets to start searching the Falcone' :''">Find Falcone</button>
-<button type="button" class="btn btn-dark" style="position: fixed; top: 29px; margin-left: 80vw; z-index: 2;" (click)="resetData()">Reset</button>
-<label style="position: fixed; top: 68px; margin-left: 86vw; z-index: 2;color: black ;">Time : {{getTotalTime()}}</label>
+<button type="button" class="find-falcone btn" [class.btn-success]="checkAllDestinationAndVehiclesAreSet()" [class.btn-danger]="!checkAllDestinationAndVehiclesAreSet()" [disabled]="!checkAllDestinationAndVehiclesAreSet()" (click)="findFalcone()" [tooltip]="!checkAllDestinationAndVehiclesAreSet()? 'Select all the slots for vehicles and planets to start searching the Falcone' :''">Find Falcone</button>
+<button type="button" class="btn btn-dark reset-button" (click)="resetData()">Reset</button>
+<label class="fixed-label">Time : {{getTotalTime()}}</label>
 <div class="row">
     <div class="col-md" *ngFor="let item of selectedItems; let i = index">
-        <ng-container class="col-md-12 row" style="display: flexbox;">
-            <img width="100px" class="col-md-6" style="float: left;" [src]="item['planets']['imageUrl']" />
-            <div class="col-md-6" style="float: left; margin-top: 12px;">
+        <ng-container class="col-md-12 row planet-vehicle-container">
+            <img width="100px" class="col-md-6 float-left" [src]="item['planets']['imageUrl']" />
+            <div class="col-md-6 data-div">
                 <label class="no-wrap">Name : {{item['planets']['name']}}</label>
                 <label class="no-wrap">Distance : {{item['planets']['distance']}}</label>
                 <div class="btn-group" dropdown>
@@ -18,9 +17,9 @@
                     </ul>
                 </div>
             </div>
-            <div *ngIf="item['planets']['isSet']" style="padding-top: 150px;margin-bottom: 200px;">
-                <img width="150px" class="col-md-6" style="float: left;" [src]="item['vehicles']['imageUrl']" />
-                <div class="col-md-6" style="float: left; margin-top: 12px;">
+            <div *ngIf="item['planets']['isSet']" class="planet-main">
+                <img width="150px" class="col-md-6 float-left" [src]="item['vehicles']['imageUrl']" />
+                <div class="col-md-6 data-div">
                     <label class="no-wrap">Name : {{item['vehicles']['name']}}</label>
                     <label class="no-wrap">Speed : {{item['vehicles']['speed']}}</label>
                     <label class="no-wrap">Max distance : {{item['vehicles']['maxDistance']}}</label>
