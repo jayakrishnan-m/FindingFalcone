@@ -13,5 +13,8 @@
         <ng-container *ngIf="!falconeFound">
             <h1 class="failed">Failed to find falcone</h1>
         </ng-container>
+        <div style="padding-left: 45%;padding-right: 50%;">
+            <button class="btn btn-primary" [routerLink]="['/']" routerLinkActive="router-link-active">Back to home</button>
+        </div>
     </header>
 </div>
