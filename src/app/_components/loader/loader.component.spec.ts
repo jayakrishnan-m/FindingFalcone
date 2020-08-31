@@ -1,6 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { LoaderComponent } from './loader.component';
+import { ApiService } from 'src/app/_services/api.service';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('LoaderComponent', () => {
   let component: LoaderComponent;
@@ -8,7 +10,9 @@ describe('LoaderComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ LoaderComponent ]
+      declarations: [ LoaderComponent ],
+      imports:[HttpClientTestingModule],
+      providers:[ApiService]
     })
     .compileComponents();
   }));
@@ -19,7 +23,7 @@ describe('LoaderComponent', () => {
     fixture.detectChanges();
   });
 
-  // it('should create', () => {
-  //   expect(component).toBeTruthy();
-  // });
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
 });

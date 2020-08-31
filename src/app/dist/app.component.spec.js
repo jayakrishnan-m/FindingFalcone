@@ -24,10 +24,4 @@ describe('AppComponent', function () {
         var app = fixture.componentInstance;
         expect(app.title).toEqual('FindingFalcon');
     });
-    // it('should render title', () => {
-    //   const fixture = TestBed.createComponent(AppComponent);
-    //   fixture.detectChanges();
-    //   const compiled = fixture.nativeElement;
-    //   expect(compiled.querySelector('h1').textContent).toContain('WELCOME TO GAME OF LUCK');
-    // });
 });
